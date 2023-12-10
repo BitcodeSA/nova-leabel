@@ -1,69 +1,134 @@
-# :package_description
+# Create Labels for Nova Resources with different languages.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
+[![Total Downloads](https://img.shields.io/packagist/dt/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
+## Improved Documentation:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+**Dynamically Manage Labels for Nova Resources**
 
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+This document details how to dynamically manage labels for Nova resources using the `abather/nova-label` package.
 
 ## Installation
 
-You can install the package via composer:
+Install the package using Composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
+composer require abather/nova-label
 ```
 
 ## Usage
 
+1. **Include ResourceLabel**:
+
+In `App/Nova/Resource.php`, extend the `NovaResource` class and add the `ResourceLabel` trait:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+<?php
+
+namespace App\Nova;
+
+use Bitcodesa\NovaLabel\ResourceLabel;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Resource as NovaResource;
+
+abstract class Resource extends NovaResource
+{
+    use ResourceLabel;
+
+    // ...
+}
 ```
+
+2. **Generate Labels**:
+
+Use the `self::attribute()` method to generate field labels. This method handles both field name and database attribute:
+
+```php
+Text::make(...self::attribute('name')); // field name and attribute same
+```
+
+**Optional Parameters:**
+
+* **Attribute name:**
+
+Specify a different database attribute name:
+
+```php
+Text::make(...self::attribute('name', 'fullName')); // field name: name, attribute: fullName
+```
+
+* **Title only:**
+
+Return only the attribute title:
+
+```php
+Text::make(self::attribute('name', title_only: true));
+```
+
+3. **Handle Relationships:**
+
+For relationship fields, pass the corresponding resource class as the first parameter to `self::relation()`:
+
+```php
+BelongsTo::make(...self::relation(\App\Nova\User::class, many: false)); // One-to-one relationship
+```
+
+**Relationship Label Customization:**
+
+Similar to field labels, you can customize relationship labels with `title` and `relation` parameters:
+
+```php
+HasMany::make(...self::relation(\App\Nova\Task::class, title: "Tasks", relation: "tasks"));
+```
+
+## Localization
+
+### File Structure
+
+Each resource has a dedicated localization file for field and other translations. The file structure should follow:
+
+```php
+<?php
+
+return [
+    // Resource name in singular and plural form
+    "resource" => "Resource",
+    "resources" => "Resources",
+
+    // Button labels
+    "buttons" => [
+        "create" => "Create Resource",
+        "update" => "Update Resource",
+    ],
+
+    // Attributes
+    "attributes" => [
+        // Translate each attribute name
+        "created_at" => __("created_at"),
+        // ...
+    ],
+
+    // Additional sections (optional)
+];
+```
+
+### Create Localization Files
+
+To create a new localization file for a specific resource and language:
+
+```bash
+php artisan make:label ResourceName LanguageSample
+```
+
+For example, to create an Arabic translation file for the `Book` resource:
+
+```bash
+php artisan make:label Book ar
+```
+
+This command generates a file at `Lang/ar/Book.php`. Translate each line in the file according to your needs.
+
+**Note:** Run `php artisan migrate` before creating the localization file to ensure all column names are available for translation.
 
 ## Testing
 
@@ -85,7 +150,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Abather M.S](https://github.com/abather)
 - [All Contributors](../../contributors)
 
 ## License

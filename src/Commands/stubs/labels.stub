@@ -1,0 +1,17 @@
+<?php
+
+return [
+    "{{ label }}" => "{{ label_trans }}",
+    "{{ singularLabel }}" => "{{ singularLabel_trans }}",
+    "buttons" => [
+        "create" => "{{ create }}",
+        "update" => "{{ update }}"
+    ],
+    "response_messages" => [
+        "created" => "{{ created }}",
+        "updated" => "{{ updated }}",
+        "deleted" => "{{ deleted }}",
+        "not_founded" => "{{ not_founded }}",
+    ],
+    "attributes" => {{ attributes }}
+];
