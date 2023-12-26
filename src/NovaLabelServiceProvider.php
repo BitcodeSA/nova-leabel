@@ -2,9 +2,9 @@
 
 namespace Bitcodesa\NovaLabel;
 
+use Bitcodesa\NovaLabel\Commands\MakeLabel;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Bitcodesa\NovaLabel\Commands\NovaLabelCommand;
 
 class NovaLabelServiceProvider extends PackageServiceProvider
 {
@@ -18,8 +18,6 @@ class NovaLabelServiceProvider extends PackageServiceProvider
         $package
             ->name('nova-label')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_nova-label_table')
-            ->hasCommand(NovaLabelCommand::class);
+            ->hasCommand(MakeLabel::class);
     }
 }
