@@ -12,14 +12,14 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Abather M.S",
-            "email": "m.abather@gmail.com",
+            "name": "Abather",
+            "email": "info@bitcode.sa",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "laravel/framework":  "^10.0",
+        "laravel/framework": "^10.0",
         "spatie/laravel-package-tools": "^1.14.0",
         "illuminate/contracts": "^10.0"
     },
@@ -79,6 +79,6 @@
             }
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
