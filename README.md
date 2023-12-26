@@ -2,9 +2,8 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
 [![Total Downloads](https://img.shields.io/packagist/dt/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
-## Improved Documentation:
 
-**Dynamically Manage Labels for Nova Resources**
+~~**Dynamically Manage Labels for Nova Resources**
 
 This document details how to dynamically manage labels for Nova resources using the `abather/nova-label` package.
 
@@ -39,7 +38,7 @@ abstract class Resource extends NovaResource
 }
 ```
 
-2. **Generate Labels**:
+2. **Generate Labels**:~~
 
 Use the `self::attribute()` method to generate field labels. This method handles both field name and database attribute:
 
@@ -79,6 +78,28 @@ Similar to field labels, you can customize relationship labels with `title` and 
 
 ```php
 HasMany::make(...self::relation(\App\Nova\Task::class, title: "Tasks", relation: "tasks"));
+```
+
+**Change File Name:**
+
+you can change file name for any resource by override `getLangPath()` function:
+
+```php
+public static function getLangPath()
+{
+    return "Users";
+}
+```
+
+**Change Resource Name:**
+
+you can change file name for any resource by override `getLangName()` function:
+
+```php
+public static function getLangName()
+{
+    return "Admin";
+}
 ```
 
 ## Localization
@@ -128,7 +149,8 @@ php artisan make:label Book ar
 
 This command generates a file at `Lang/ar/Book.php`. Translate each line in the file according to your needs.
 
-**Note:** Run `php artisan migrate` before creating the localization file to ensure all column names are available for translation.
+**Note:** Run `php artisan migrate` before creating the localization file to ensure all column names are available for
+translation.
 
 ## Testing
 
