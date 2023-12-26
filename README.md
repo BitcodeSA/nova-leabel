@@ -5,7 +5,7 @@
 
 ~~**Dynamically Manage Labels for Nova Resources**
 
-This document details how to dynamically manage labels for Nova resources using the `abather/nova-label` package.
+This document details how to dynamically manage labels for Nova resources using the `bitcodesa/nova-label` package.
 
 ## Installation
 
