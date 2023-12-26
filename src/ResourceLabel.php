@@ -13,16 +13,16 @@ trait ResourceLabel
 
     public static function label()
     {
-        if (Str::snake(Str::plural(class_basename(static::$model))) == Str::snake(class_basename(static::$model))) {
-            return self::lang(Str::snake(class_basename(static::$model)).'_plural');
+        if (Str::snake(Str::plural(self::getLangName())) == Str::snake(self::getLangName())) {
+            return self::lang(Str::snake(self::getLangName()).'_plural');
         }
 
-        return self::lang(Str::snake(Str::plural(class_basename(static::$model))));
+        return self::lang(Str::snake(Str::plural(self::getLangName())));
     }
 
     public static function singularLabel()
     {
-        return self::lang(Str::snake(class_basename(static::$model)));
+        return self::lang(Str::snake(self::getLangName()));
     }
 
     public static function createButtonLabel(): string
@@ -51,10 +51,10 @@ trait ResourceLabel
     {
         if ($many) {
             $title = $title ?? $resource::label();
-            $relation = $relation ?? Str::camel(Str::plural(class_basename($resource)));
+            $relation = $relation ?? Str::camel(Str::plural($resource::getLangName()));
         } else {
             $title = $title ?? $resource::singularLabel();
-            $relation = $relation ?? Str::camel(class_basename($resource));
+            $relation = $relation ?? Str::camel($resource::getLangName());
         }
 
         return [
@@ -65,6 +65,11 @@ trait ResourceLabel
     }
 
     public static function getLangPath()
+    {
+        return self::getLangName();
+    }
+
+    public static function getLangName()
     {
         return class_basename(static::$model);
     }
