@@ -8,13 +8,13 @@ trait ResourceLabel
 {
     public static function lang($path, $variables = []): string
     {
-        return __(class_basename(static::$model) . ".$path", $variables);
+        return __(self::getLangPath().".$path", $variables);
     }
 
     public static function label()
     {
         if (Str::snake(Str::plural(class_basename(static::$model))) == Str::snake(class_basename(static::$model))) {
-            return self::lang(Str::snake(class_basename(static::$model)) . '_plural');
+            return self::lang(Str::snake(class_basename(static::$model)).'_plural');
         }
 
         return self::lang(Str::snake(Str::plural(class_basename(static::$model))));
@@ -38,24 +38,15 @@ trait ResourceLabel
     public static function attribute(string $title, $attribute = null, $title_only = false): array|string
     {
         if ($title_only) {
-            return self::lang("attributes." . Str::snake($title));
+            return self::lang("attributes.".Str::snake($title));
         }
 
         return [
-            self::lang("attributes." . Str::snake($title)),
+            self::lang("attributes.".Str::snake($title)),
             $attribute ?? Str::snake($title)
         ];
     }
 
-    /**
-     * Retrieves the title, relation name, and resource class for a given resource.
-     * This data is intended to be used as parameters for the `make` function.
-     *
-     * @param string $resource The fully qualified name of the resource class
-     * @param bool $many Whether to return the plural or singular title (default: true)
-     * @param string|null $relation The custom relation name (if any)
-     * @return array An array containing the title, relation name, and resource class
-     */
     public function relation($resource, $many = true, $relation = null, $title = null): array
     {
         if ($many) {
@@ -71,5 +62,10 @@ trait ResourceLabel
             $relation,
             $resource
         ];
+    }
+
+    public static function getLangPath()
+    {
+        return class_basename(static::$model);
     }
 }
