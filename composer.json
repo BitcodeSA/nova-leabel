@@ -7,7 +7,7 @@
         "nova-label",
         "nova"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "homepage": "https://github.com/abather/nova-label",
     "license": "MIT",
     "authors": [
