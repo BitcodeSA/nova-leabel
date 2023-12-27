@@ -1,7 +1,7 @@
 # Create Labels for Nova Resources with different languages.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
-[![Total Downloads](https://img.shields.io/packagist/dt/abather/nova-label.svg?style=flat-square)](https://packagist.org/packages/abather/nova-label)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/bitcodesa/nova-label.svg?style=flat-square)](https://packagist.org/packages/bitcodesa/nova-label)
+[![Total Downloads](https://img.shields.io/packagist/dt/bitcodesa/nova-label.svg?style=flat-square)](https://packagist.org/packages/bitcodesa/nova-label)
 
 ~~**Dynamically Manage Labels for Nova Resources**
 
@@ -12,7 +12,7 @@ This document details how to dynamically manage labels for Nova resources using 
 Install the package using Composer:
 
 ```bash
-composer require abather/nova-label
+composer require bitcodesa/nova-label
 ```
 
 ## Usage
